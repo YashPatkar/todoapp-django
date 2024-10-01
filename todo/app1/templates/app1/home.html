@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+{% block start %}
+<form action="{% url 'home' %}" method = "POST">
+    {% csrf_token %}
+    Name: <input type="text" name="name" required><br>
+    Notes: <textarea name="note" required></textarea><br>
+    Submit: <button type="submit">Create Note</button>
+</form>
+
+{% if notes %}
+<hr>
+<br>
+    <table border="black" class="container">
+        <tr>
+            <th>Sr.No</th>
+            <th>Name</th>
+            <th>Note</th>
+            <th>Option</th>
+        </tr>
+        {% for notee in notes %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{notee.name}}</td>
+                <td>{{notee.note}}</td>
+                <form action="{% url 'delete_user' notee.id %}" method="get">
+                    <td>
+                        <button type="submit">Delete</button>
+                    </td>
+                </form>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+<hr>
+<br>
+No note Has been created
+{% endif %}
+{% endblock %}
